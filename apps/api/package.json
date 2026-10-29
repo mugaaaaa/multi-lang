@@ -1,0 +1,32 @@
+{
+  "name": "@multi-lang/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch ./src/main.ts",
+    "start": "tsx ./src/main.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.1.5",
+    "@hono/zod-validator": "^0.9.1",
+    "@multi-lang/contracts": "workspace:*",
+    "@multi-lang/domain": "workspace:*",
+    "@multi-lang/importer-markdown": "workspace:*",
+    "@multi-lang/language-en": "workspace:*",
+    "@multi-lang/language-ja": "workspace:*",
+    "@multi-lang/plugin-sdk": "workspace:*",
+    "@multi-lang/scheduler-fsrs": "workspace:*",
+    "@multi-lang/storage": "workspace:*",
+    "dotenv": "^16.4.5",
+    "hono": "^4.6.0",
+    "mysql2": "^3.11.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@multi-lang/language-en",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/server/index.ts",
+  "types": "./src/server/index.ts",
+  "exports": {
+    ".": "./src/server/index.ts",
+    "./server": "./src/server/index.ts"
+  },
+  "dependencies": {
+    "@multi-lang/plugin-sdk": "workspace:*",
+    "@multi-lang/contracts": "workspace:*"
+  }
+}
