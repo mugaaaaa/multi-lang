@@ -135,3 +135,28 @@
 - `ownerId` 仍为 `DEV_OWNER_ID` 单用户注入，无认证中间件。
 - 语言插件 `src/web/` 槽位已预留、贡献点机制可用，但英/日暂无语言专属页面注册（现有五页为通用学习流程，属内置插件贡献）；待出现真实语言专属 UI 需求再补，不预造空实现。
 - Drizzle 依赖仍未使用，待决定移除或启用。
+
+## 9. 评审复现修复（2026-10-29）
+
+### 问题
+
+按 README 在全新环境执行 `pnpm migrate` 时，seekdb 中只有容器初始化后的默认库，`multi_lang` 尚不存在，连接直接报 `ER_BAD_DB_ERROR: Unknown database 'multi_lang'`，后续 API 与 Web 无法启动。原迁移脚本假设数据库已手动创建，但运行说明没有这一步。
+
+### 修复
+
+- `packages/storage/src/migrate.ts`：迁移前先连接服务器（不指定数据库），校验库名后执行 `CREATE DATABASE IF NOT EXISTS ... CHARACTER SET utf8mb4`；随后再创建带数据库的连接执行迁移。
+- 迁移连接增加重试：seekdb 未就绪时最多等待约 120 秒（40 次 × 3 秒），连接超时 5 秒；权限错误等不可重试错误立即失败并提示检查 `.env`。
+- `packages/storage/src/connection.ts`：连接池与连接增加 `connectTimeout: 5000`，避免干净环境里长时间挂起。
+- `pnpm-workspace.yaml`：允许 `esbuild` 构建脚本，避免 pnpm 10 在干净安装时忽略 postinstall。
+
+### 干净环境验证
+
+- 从公开仓库 `main` 克隆到 `/tmp`，使用全新数据库 `multi_lang_clean`。
+- `pnpm install` 成功；`pnpm migrate` 自动建库并输出 `applied: 0001_init`。
+- 干净 API 启动后，完整执行：创建计划 → 导入《海と水》→ 发布 → 检索「海」（3 条命中，来源修订 1）→ 复习评分 → 统计（累计复习 1、保持率 100%、连续 1 天）。
+- 干净 Web 连接干净 API 后，今日学习、教材与统计页均读取到真实数据。
+- `pnpm --filter @multi-lang/web build` 通过。
+
+### 说明
+
+第 8 节验证样例使用两行表格，因此为 2 笔记/2 卡片；本次干净复现只粘贴了一行表格，因此为 1 笔记/1 卡片，两者都是真实导入结果。

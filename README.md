@@ -77,6 +77,10 @@ DefaultPluginRegistry
 环境要求：Node.js 22+、pnpm 10、Docker（或 OrbStack）。首次启动 seekdb 需要几分钟完成初始化。
 
 ```bash
+# 0. 确保 pnpm 可用（Node 22+ 通常自带 corepack）
+corepack enable
+corepack prepare pnpm@10.20.0 --activate
+
 # 1. 启动 seekdb
 docker compose -f infra/seekdb/docker-compose.yml up -d
 
@@ -91,7 +95,13 @@ pnpm dev:api   # http://localhost:8787
 pnpm dev:web   # http://localhost:5173
 ```
 
-环境变量模板见 `.env.example`，不要提交真实密码或 API Key。MVP 为单用户模式，`ownerId` 由服务端从 `DEV_OWNER_ID` 注入。
+`pnpm migrate` 会自动创建 `SEEKDB_DATABASE`（默认 `multi_lang`），并最多等待 seekdb 约 2 分钟；不需要手动建库。环境变量模板见 `.env.example`，不要提交真实密码或 API Key。MVP 为单用户模式，`ownerId` 由服务端从 `DEV_OWNER_ID` 注入。
+
+如果迁移仍失败：
+
+- `Unknown database`：确认执行的是最新代码；迁移会自动建库。
+- `Access denied`：`.env` 的 `SEEKDB_PASSWORD` 必须与 compose 的 `SEEKDB_ROOT_PASSWORD` 一致。
+- `ECONNREFUSED`：seekdb 还没就绪；用 `docker compose -f infra/seekdb/docker-compose.yml ps` 等到 `healthy`，迁移也会自动重试。
 
 展示站源码在 `apps/showcase`：
 
@@ -111,6 +121,7 @@ python3 -m http.server 4173 --directory apps/showcase/dist
 海についての短い教材です。
 
 | 海 | うみ、大海 |
+| 水 | みず |
 ```
 
 3. 解析草稿并确认发布。预期教材工坊出现 `2` 段、`2` 条笔记、`2` 张卡片。
