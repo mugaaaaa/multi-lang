@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>多语言学习工作台 · 把教材变成会按时回来的记忆</title>
+    <meta
+      name="description"
+      content="面向英语与日语的自托管学习工作台：教材导入、人工校订、seekdb 全文检索、FSRS 复习与真实进度统计。OceanBase 2026 Qoder 赛道参赛作品。"
+    />
+    <meta property="og:title" content="多语言学习工作台 · OceanBase 2026 Qoder 赛道" />
+    <meta
+      property="og:description"
+      content="导入教材、人工校订、写入 seekdb、按 FSRS 复习。所有进度来自真实 ReviewLog。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/screenshots/today.png" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+    <div class="paper-grain" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="brand" href="#top" aria-label="回到首页">
+          <span class="brand-mark">文</span>
+          <span class="brand-text">
+            学习工作台
+            <small>MULTI-LANG / STUDY DESK</small>
+          </span>
+        </a>
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+        >
+          目录
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="页面目录">
+          <a href="#problem">项目</a>
+          <a href="#features">功能</a>
+          <a href="#screens">界面</a>
+          <a href="#seekdb">seekdb</a>
+          <a href="#run">运行</a>
+          <a href="#qoder">开发记录</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="wrap hero-grid">
+          <div class="hero-copy reveal">
+            <p class="eyebrow">OceanBase 2026 · Qoder 赛道 / 参赛作品</p>
+            <h1>把教材，变成<br /><span class="accent">会按时回来</span>的记忆。</h1>
+            <p class="hero-lead">
+              面向英语与日语的自托管学习工作台。导入教材、人工校订、在同一事务里写入
+              seekdb 检索文档，再用 FSRS 安排下一次复习。进度全部来自真实
+              ReviewLog，没有演示曲线。
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#screens">看真实界面</a>
+              <a class="button button-ghost" href="#run">阅读运行说明</a>
+            </div>
+            <ul class="chip-row" aria-label="关键技术">
+              <li>seekdb 单库</li>
+              <li>React + Hono</li>
+              <li>FSRS</li>
+              <li>Qoder Sites</li>
+            </ul>
+          </div>
+
+          <figure class="hero-shot reveal">
+            <div class="shot-frame">
+              <picture>
+                <source
+                  media="(max-width: 760px)"
+                  srcset="assets/screenshots/today-mobile.png"
+                  width="390"
+                  height="844"
+                />
+                <img
+                  src="assets/screenshots/today.png"
+                  alt="学习工作台今日学习页面，显示日语计划、到期队列、记忆库与最近教材"
+                  width="1440"
+                  height="1100"
+                />
+              </picture>
+            </div>
+            <figcaption>
+              <span>今日学习 / 日语 N4 核心词汇</span>
+              <span>真实运行截图，非设计稿</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="wrap">
+          <dl class="fact-strip reveal">
+            <div>
+              <dt>数据库</dt>
+              <dd>1 个<small>只使用 seekdb</small></dd>
+            </div>
+            <div>
+              <dt>语言插件</dt>
+              <dd>2 个<small>英语 / 日语</small></dd>
+            </div>
+            <div>
+              <dt>学习闭环</dt>
+              <dd>6 步<small>导入到统计</small></dd>
+            </div>
+            <div>
+              <dt>演示数据</dt>
+              <dd>0 条<small>截图来自真实运行</small></dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="section" id="problem">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <p class="eyebrow">01 / 问题</p>
+            <h2>学习工具不缺功能，缺的是一条闭环。</h2>
+            <p>
+              教材、笔记、检索和复习常常分散在四个工具里。每多一次复制粘贴，记忆就多断一次。
+            </p>
+          </div>
+
+          <div class="problem-grid">
+            <article class="problem-card reveal">
+              <span class="index">01</span>
+              <h3>教材进不来</h3>
+              <p>PDF、网页、课程笔记格式各异，清洗和整理占掉了真正学习的时间。</p>
+            </article>
+            <article class="problem-card reveal">
+              <span class="index">02</span>
+              <h3>复习靠意志</h3>
+              <p>没有调度，记过的内容不会在恰当的时间回来；想复习时也不知道该复习什么。</p>
+            </article>
+            <article class="problem-card reveal">
+              <span class="index">03</span>
+              <h3>找到了，却不知道出处</h3>
+              <p>搜索给出一段答案，却说不清来自哪本教材、哪一次修订。</p>
+            </article>
+          </div>
+
+          <p class="statement reveal">
+            这个项目把<strong>教材段落、笔记、检索文档和复习状态</strong>放进同一个
+            seekdb，用一次发布事务串起来。
+          </p>
+        </div>
+      </section>
+
+      <section class="section section-tint" id="loop">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <p class="eyebrow">02 / 闭环</p>
+            <h2>从一份 Markdown，到下一次到期。</h2>
+            <p>六个步骤都在同一个工作台里完成，中间没有导出、导入和手工同步。</p>
+          </div>
+
+          <ol class="loop-grid">
+            <li class="reveal">
+              <span class="step">01</span>
+              <h3>导入</h3>
+              <p>粘贴 Markdown，解析成安全 AST 与可校订的草稿。</p>
+            </li>
+            <li class="reveal">
+              <span class="step">02</span>
+              <h3>校订</h3>
+              <p>检查段落、笔记字段与 warning，确认后才进入发布。</p>
+            </li>
+            <li class="reveal">
+              <span class="step">03</span>
+              <h3>发布</h3>
+              <p>教材、笔记、卡片与 SearchDocument 在同一事务写入。</p>
+            </li>
+            <li class="reveal">
+              <span class="step">04</span>
+              <h3>检索</h3>
+              <p>按日语 ngram、英语 space 配置查原文、读音与释义。</p>
+            </li>
+            <li class="reveal">
+              <span class="step">05</span>
+              <h3>复习</h3>
+              <p>FSRS 按真实评分计算 stability、difficulty 与 dueAt。</p>
+            </li>
+            <li class="reveal">
+              <span class="step">06</span>
+              <h3>统计</h3>
+              <p>保持率、连续天数与 14 天节奏直接从数据库聚合。</p>
+            </li>
+          </ol>
+
+          <p class="fine-print reveal">
+            没有确认发布，就不会生成卡片或检索文档。没有复习记录，统计页就保持空白。
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="features">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <p class="eyebrow">03 / 能力</p>
+            <h2>为“真实可用”做的取舍。</h2>
+            <p>不是功能清单的堆叠，而是让每一步都能被验证。</p>
+          </div>
+
+          <div class="feature-grid">
+            <article class="feature-card reveal">
+              <span class="feature-tag">IMPORT</span>
+              <h3>教材导入与人工校订</h3>
+              <p>
+                Markdown 解析为安全 AST；草稿预览展示段落、笔记与 warning。发布是显式动作，预览不会冒充结果。
+              </p>
+            </article>
+            <article class="feature-card reveal">
+              <span class="feature-tag">SEEKDB</span>
+              <h3>全文检索，带出处</h3>
+              <p>
+                业务文本与 SearchDocument 同事务发布；<code>MATCH ... AGAINST</code>
+                参数化查询。日语走 ngram，英语走 space，由语言插件配置决定。
+              </p>
+            </article>
+            <article class="feature-card reveal">
+              <span class="feature-tag">FSRS</span>
+              <h3>到期才出现</h3>
+              <p>
+                ts-fsrs 4.7 计算调度；评分写入只追加的 review_logs。到期队列只包含真正到期的卡片，未来任务不提前计入。
+              </p>
+            </article>
+            <article class="feature-card reveal">
+              <span class="feature-tag">PROGRESS</span>
+              <h3>真实进度</h3>
+              <p>
+                累计复习、今日复习、保持率、连续天数与 14 天节奏全部来自 cards、card_scheduling_states 与 review_logs。
+              </p>
+            </article>
+            <article class="feature-card reveal">
+              <span class="feature-tag">PLUGIN</span>
+              <h3>语言插件化</h3>
+              <p>
+                英语与日语各自注册 NoteType、规范化函数和检索配置。核心路由没有按语言写死分支，新增语言不改通用流程。
+              </p>
+            </article>
+            <article class="feature-card reveal">
+              <span class="feature-tag">WEB</span>
+              <h3>Web 微内核</h3>
+              <p>
+                AppShell 独占布局，插件只向 route、sidebar、headerAction 三类贡献点注册。五个通用页面也由内置插件装配。
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-tint" id="screens">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <p class="eyebrow">04 / 界面</p>
+            <h2>真实运行，不是设计稿。</h2>
+            <p>
+              以下截图来自本地运行的日语工作台，连接真实 seekdb。点击任意截图可放大查看。
+            </p>
+          </div>
+
+          <div class="gallery">
+            <div class="gallery-main">
+              <figure class="shot reveal shot-main">
+                <button type="button" class="shot-button" data-lightbox>
+                  <img
+                    src="assets/screenshots/today.png"
+                    alt="今日学习页面，包含 FSRS 到期队列、记忆库、今日已复习、连续学习与最近教材"
+                    width="1440"
+                    height="1100"
+                  />
+                </button>
+                <figcaption>
+                  <strong>今日学习</strong>
+                  <span>到期队列、记忆库与最近教材在同屏呈现。</span>
+                </figcaption>
+              </figure>
+
+              <figure class="shot reveal">
+                <button type="button" class="shot-button" data-lightbox>
+                  <img
+                    src="assets/screenshots/stats.png"
+                    alt="学习统计页面，显示累计复习 4 次、今日复习 4 次、保持率 100%、连续学习 1 天与 14 天复习节奏"
+                    width="1440"
+                    height="1000"
+                  />
+                </button>
+                <figcaption>
+                  <strong>学习统计</strong>
+                  <span>累计复习、保持率与 14 天节奏都来自真实 ReviewLog。</span>
+                </figcaption>
+              </figure>
+            </div>
+
+            <div class="gallery-side">
+              <figure class="shot reveal">
+                <button type="button" class="shot-button" data-lightbox>
+                  <img
+                    src="assets/screenshots/library.png"
+                    alt="教材工坊页面，展示导入、校订预览、发布完成三个步骤与已发布教材"
+                    width="1440"
+                    height="1164"
+                  />
+                </button>
+                <figcaption>
+                  <strong>教材工坊</strong>
+                  <span>导入、校订、发布三段式；已发布教材显示段落、笔记与卡片数量。</span>
+                </figcaption>
+              </figure>
+              <figure class="shot reveal">
+                <button type="button" class="shot-button" data-lightbox>
+                  <img
+                    src="assets/screenshots/search.png"
+                    alt="混合检索页面，搜索“海”命中一条学习笔记与两条教材段落，显示来源修订与相关度"
+                    width="1440"
+                    height="1000"
+                  />
+                </button>
+                <figcaption>
+                  <strong>混合检索</strong>
+                  <span>搜索“海”，命中学习笔记与教材段落，附来源修订与相关度。</span>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <div class="gallery-bottom">
+            <figure class="shot shot-mobile reveal">
+              <button type="button" class="shot-button" data-lightbox>
+                <img
+                  src="assets/screenshots/today-mobile.png"
+                  alt="移动端今日学习页面，展示抽屉导航、到期队列与三张指标卡"
+                  width="390"
+                  height="844"
+                />
+              </button>
+              <figcaption>
+                <strong>移动端</strong>
+                <span>抽屉导航与响应式布局，主要流程在小屏上仍然完整。</span>
+              </figcaption>
+            </figure>
+
+            <aside class="sample-note reveal">
+              <p class="eyebrow">截图中的真实数据</p>
+              <ul>
+                <li>计划：日语 N4 核心词汇</li>
+                <li>教材：《海と水》，2 段 / 2 笔记 / 2 卡片</li>
+                <li>复习：2 张卡片，2 轮评分，共 4 次 ReviewLog</li>
+                <li>检索：查询“海”，3 条命中，来源修订均为 1</li>
+              </ul>
+              <p class="fine-print">以上内容来自本地真实 seekdb，不是 mock 数据。</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-dark" id="seekdb">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <p class="eyebrow">05 / 技术结合</p>
+            <h2>seekdb 不是一个连接串，而是<span class="nowrap">流程的一部分。</span></h2>
+            <p>
+              首版只使用 seekdb 一个数据库。业务表、全文检索文档和复习状态共享同一套事务与时间基准。
+            </p>
+          </div>
+
+          <div class="architecture reveal" aria-label="系统架构示意">
+            <div class="arch-row">
+              <div class="arch-node">
+                <span>WEB</span>
+                <strong>React + Vite</strong>
+                <small>AppShell / WebPluginRegistry</small>
+              </div>
+              <span class="arch-arrow" aria-hidden="true">→</span>
+              <div class="arch-node">
+                <span>API</span>
+                <strong>Hono /v1</strong>
+                <small>计划 / 导入 / 检索 / 复习</small>
+              </div>
+              <span class="arch-arrow" aria-hidden="true">→</span>
+              <div class="arch-node">
+                <span>DOMAIN</span>
+                <strong>领域服务</strong>
+                <small>事务编排与 NoteType 校验</small>
+              </div>
+              <span class="arch-arrow" aria-hidden="true">→</span>
+              <div class="arch-node">
+                <span>STORAGE</span>
+                <strong>mysql2 参数化 SQL</strong>
+                <small>仓储 / 检索 / 调度状态</small>
+              </div>
+              <span class="arch-arrow" aria-hidden="true">→</span>
+              <div class="arch-node arch-node-accent">
+                <span>DATABASE</span>
+                <strong>seekdb</strong>
+                <small>唯一数据库</small>
+              </div>
+            </div>
+            <div class="arch-plugins">
+              <span class="arch-label">插件组合入口</span>
+              <span class="arch-pill">language-en</span>
+              <span class="arch-pill">language-ja</span>
+              <span class="arch-pill">importer-markdown</span>
+              <span class="arch-pill">scheduler-fsrs</span>
+              <span class="arch-arrow" aria-hidden="true">→</span>
+              <span class="arch-pill arch-pill-strong">DefaultPluginRegistry</span>
+            </div>
+          </div>
+
+          <div class="seekdb-grid">
+            <ul class="fact-list reveal">
+              <li>
+                <h3>同事务发布</h3>
+                <p>
+                  教材段落、笔记、卡片与 SearchDocument 一起提交；任何一步失败全部回滚，不会出现“文本写入了但检索不到”的半成品。
+                </p>
+              </li>
+              <li>
+                <h3>检索策略由语言包决定</h3>
+                <p>
+                  日语 <code>normalized_text</code> 走 ngram，英语
+                  <code>original_text</code> 走 space。列选择来自
+                  <code>searchConfig</code>，不在 SQL 里按语言代码写分支。
+                </p>
+              </li>
+              <li>
+                <h3>时间基准统一</h3>
+                <p>
+                  连接池统一使用 UTC，到期判断改用
+                  <code>UTC_TIMESTAMP(3)</code>，修复了数据库 +08:00 与 Node
+                  进程时区漂移导致的口径差。
+                </p>
+              </li>
+              <li>
+                <h3>单库边界</h3>
+                <p>
+                  不引入 PostgreSQL 或独立 MySQL。11 张表承载计划、教材、笔记、卡片、调度状态与只追加的 ReviewLog。
+                </p>
+              </li>
+            </ul>
+
+            <aside class="verify-card reveal">
+              <p class="eyebrow">真实验证片段 / 2026-10-29</p>
+              <h3>在日语计划中检索「海」</h3>
+              <ol class="result-list">
+                <li>
+                  <span>01</span>
+                  <div><strong>学习笔记</strong><small>相关度 0.400 · 来源修订 1</small></div>
+                </li>
+                <li>
+                  <span>02</span>
+                  <div><strong>教材段落 · 海と水</strong><small>相关度 0.350 · 来源修订 1</small></div>
+                </li>
+                <li>
+                  <span>03</span>
+                  <div><strong>教材段落 · 海と水</strong><small>相关度 0.231 · 来源修订 1</small></div>
+                </li>
+              </ol>
+              <p>
+                随后 2 张卡片完成 2 轮评分。统计页显示累计复习 4、保持率
+                100%、连续 1 天。以上数字均来自真实 seekdb。
+              </p>
+              <p class="fine-print">
+                当前只启用全文检索；Embedding Worker 与向量检索尚未实现，
+                <code>embedding_status</code> 保持 pending。首版为单用户，ownerId
+                由服务端注入。
+              </p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="run">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <p class="eyebrow">06 / 运行</p>
+            <h2>十分钟内，从零到第一次复习。</h2>
+            <p>需要 Node.js 22+、pnpm 10 与 Docker（或 OrbStack）。seekdb 以容器方式启动。</p>
+          </div>
+
+          <div class="run-grid">
+            <div class="run-steps reveal">
+              <ol>
+                <li>
+                  <div class="run-step-head">
+                    <span>01</span>
+                    <h3>启动 seekdb</h3>
+                  </div>
+                  <p>首次拉取镜像与健康检查可能需要几分钟。</p>
+                </li>
+                <li>
+                  <div class="run-step-head">
+                    <span>02</span>
+                    <h3>安装依赖并迁移</h3>
+                  </div>
+                  <p>复制环境变量模板，按本地密码修改占位值。</p>
+                </li>
+                <li>
+                  <div class="run-step-head">
+                    <span>03</span>
+                    <h3>分别启动 API 与 Web</h3>
+                  </div>
+                  <p>API 监听 8787，Web 监听 5173；Vite 将 /v1 代理到 API。</p>
+                </li>
+              </ol>
+              <p class="fine-print">
+                数据库连接、迁移与真实 seekdb 验证细节见仓库中的
+                <code>docs/sprint1/mvp-plan.md</code>。
+              </p>
+            </div>
+
+            <div class="code-card reveal">
+              <div class="code-head">
+                <span>终端</span>
+                <button type="button" class="copy-button" data-copy>复制</button>
+              </div>
+              <pre><code># 1. 启动 seekdb
+docker compose -f infra/seekdb/docker-compose.yml up -d
+
+# 2. 安装依赖并迁移
+cp .env.example .env
+pnpm install
+pnpm migrate
+
+# 3. 两个终端分别启动
+pnpm dev:api   # http://localhost:8787
+pnpm dev:web   # http://localhost:5173</code></pre>
+            </div>
+          </div>
+
+          <div class="verify-run">
+            <div class="markdown-sample reveal">
+              <div class="code-head">
+                <span>验证样例 / lesson.md</span>
+                <button type="button" class="copy-button" data-copy>复制</button>
+              </div>
+              <pre><code># 海と水
+
+海についての短い教材です。
+
+| 海 | うみ、大海 |</code></pre>
+            </div>
+            <div class="run-check reveal">
+              <p class="eyebrow">按步骤验收</p>
+              <ol>
+                <li>打开 <code>http://localhost:5173</code>，新建「日语 N4 核心词汇」。语言选项来自 <code>GET /v1/languages</code>。</li>
+                <li>在教材工坊粘贴左侧 Markdown，解析草稿后确认发布。</li>
+                <li>预期：教材工坊出现 2 段、2 条笔记、2 张卡片。</li>
+                <li>混合检索输入「海」，应命中笔记与教材段落，并显示来源修订与相关度。</li>
+                <li>在记忆复习中完成 2 轮评分，统计页出现真实复习数字。</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-sage" id="qoder">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <p class="eyebrow">07 / 开发记录</p>
+            <h2>主要功能由 Qoder 完成。</h2>
+            <p>
+              从需求拆解、设计、编码到真实环境联调与修复，开发过程集中在 Qoder 中完成。
+            </p>
+          </div>
+
+          <div class="qoder-grid">
+            <ol class="timeline">
+              <li class="reveal">
+                <span class="when">需求与边界</span>
+                <div>
+                  <h3>先写设计，再写代码</h3>
+                  <p>明确单库、模块依赖、插件契约与验收范围，形成设计文档后开始实施。</p>
+                </div>
+              </li>
+              <li class="reveal">
+                <span class="when">工程搭建</span>
+                <div>
+                  <h3>pnpm workspace 与分层</h3>
+                  <p>契约、领域、存储、API、Web 与四个默认插件分属独立包，依赖方向固定。</p>
+                </div>
+              </li>
+              <li class="reveal">
+                <span class="when">真实联调</span>
+                <div>
+                  <h3>OrbStack + seekdb 全链路</h3>
+                  <p>创建计划 → 导入 → 发布 → 检索 → FSRS 复习 → 统计，全部在真实数据库上跑通。</p>
+                </div>
+              </li>
+              <li class="reveal">
+                <span class="when">问题修复</span>
+                <div>
+                  <h3>两个真实缺陷</h3>
+                  <p>
+                    修复时区漂移导致的统计/到期队列口径差；修复教材发布后草稿状态被误清空。均在浏览器与数据库上复验。
+                  </p>
+                </div>
+              </li>
+              <li class="reveal">
+                <span class="when">插件化升级</span>
+                <div>
+                  <h3>Web 微内核与语言插件</h3>
+                  <p>抽出 WebPluginRegistry 与语言插件 server 入口；内置页面也通过受控贡献点注册。</p>
+                </div>
+              </li>
+              <li class="reveal">
+                <span class="when">发布</span>
+                <div>
+                  <h3>Qoder Sites</h3>
+                  <p>本页通过 Qoder Sites 发布，作为赛题作品网站与评审入口。</p>
+                </div>
+              </li>
+            </ol>
+
+            <aside class="usage-card reveal">
+              <p class="eyebrow">使用情况 / 如实记录</p>
+              <h3>先完成真实使用与工程验证。</h3>
+              <p>
+                截图时为本人的真实使用与验证：1 个日语计划、1 份教材、2 张卡片、4
+                次评分。尚未开展多人使用统计，因此不展示访问量或提效对比。
+              </p>
+              <dl>
+                <div><dt>教材</dt><dd>1 份</dd></div>
+                <div><dt>卡片</dt><dd>2 张</dd></div>
+                <div><dt>评分</dt><dd>4 次</dd></div>
+                <div><dt>保持率</dt><dd>100%</dd></div>
+              </dl>
+              <p class="fine-print">
+                以上数字与站点截图一致，均来自本地真实 ReviewLog。Qoder
+                对话截图与账号 UID 随赛题提交材料提供。
+              </p>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-grid">
+        <div>
+          <a class="brand footer-brand" href="#top">
+            <span class="brand-mark">文</span>
+            <span class="brand-text">学习工作台<small>MULTI-LANG / STUDY DESK</small></span>
+          </a>
+          <p class="footer-note">
+            OceanBase 2026 · Qoder 赛道参赛作品。应用本体依赖本地 seekdb，运行方式见上方说明。
+          </p>
+        </div>
+        <div>
+          <p class="footer-label">技术栈</p>
+          <p>TypeScript · React · Vite · Hono · seekdb · mysql2 · ts-fsrs</p>
+        </div>
+        <div>
+          <p class="footer-label">代码仓库</p>
+          <p>
+            <a href="https://github.com/mugaaaaa/multi-lang" target="_blank" rel="noreferrer">
+              github.com/mugaaaaa/multi-lang
+            </a>
+          </p>
+          <p class="footer-note">完整源码、运行说明与验证样例见仓库 README。</p>
+        </div>
+      </div>
+      <div class="wrap footer-bottom">
+        <span>2026 / 学习工作台</span>
+        <span>本站通过 Qoder Sites 发布</span>
+      </div>
+    </footer>
+
+    <dialog class="lightbox" id="lightbox" aria-label="查看截图">
+      <form method="dialog">
+        <button class="lightbox-close" type="submit" aria-label="关闭截图">关闭</button>
+      </form>
+      <img id="lightbox-image" alt="" />
+      <p id="lightbox-caption"></p>
+    </dialog>
+
+    <script src="main.js"></script>
+  </body>
+</html>

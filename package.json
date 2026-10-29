@@ -8,7 +8,8 @@
   "scripts": {
     "dev:api": "pnpm --filter @multi-lang/api dev",
     "dev:web": "pnpm --filter @multi-lang/web dev",
-    "migrate": "pnpm --filter @multi-lang/storage migrate"
+    "migrate": "pnpm --filter @multi-lang/storage migrate",
+    "build:showcase": "rm -rf apps/showcase/dist && mkdir -p apps/showcase/dist && cp apps/showcase/index.html apps/showcase/styles.css apps/showcase/main.js apps/showcase/dist/ && cp -R apps/showcase/assets apps/showcase/dist/assets"
   },
   "devDependencies": {
     "typescript": "^5.9.3"
