@@ -494,14 +494,14 @@
                     <span>01</span>
                     <h3>启动 seekdb</h3>
                   </div>
-                  <p>首次拉取镜像与健康检查可能需要几分钟。</p>
+                  <p>首次拉取镜像与健康检查可能需要几分钟；迁移会自动重试等待。</p>
                 </li>
                 <li>
                   <div class="run-step-head">
                     <span>02</span>
                     <h3>安装依赖并迁移</h3>
                   </div>
-                  <p>复制环境变量模板，按本地密码修改占位值。</p>
+                  <p>复制环境变量模板，按本地密码修改占位值。迁移会自动创建数据库，并等待 seekdb 就绪。</p>
                 </li>
                 <li>
                   <div class="run-step-head">
@@ -546,7 +546,8 @@ pnpm dev:web   # http://localhost:5173</code></pre>
 
 海についての短い教材です。
 
-| 海 | うみ、大海 |</code></pre>
+| 海 | うみ、大海 |
+| 水 | みず |</code></pre>
             </div>
             <div class="run-check reveal">
               <p class="eyebrow">按步骤验收</p>

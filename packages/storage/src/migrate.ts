@@ -2,13 +2,87 @@ import "dotenv/config";
 import { readdir, readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import mysql from "mysql2/promise";
 import { createStorage } from "./index.js";
+import { storageEnvFromProcess, type StorageEnv } from "./connection.js";
 import type { MySqlStorage } from "./storage.js";
 
 const migrationsDir = join(
   dirname(fileURLToPath(import.meta.url)),
   "../migrations",
 );
+
+const RETRYABLE_CODES = new Set([
+  "ECONNREFUSED",
+  "ETIMEDOUT",
+  "EHOSTUNREACH",
+  "ENOTFOUND",
+  "PROTOCOL_CONNECTION_LOST",
+]);
+const RETRY_ATTEMPTS = 40;
+const RETRY_DELAY_MS = 3000;
+
+function errorCode(error: unknown): string {
+  if (typeof error !== "object" || error === null) return "";
+  const code = (error as { code?: unknown }).code;
+  return code === undefined ? "" : String(code);
+}
+
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function ensureDatabase(env: StorageEnv): Promise<void> {
+  if (!/^[A-Za-z0-9_]+$/.test(env.database)) {
+    throw new Error(`Invalid SEEKDB_DATABASE: ${env.database}`);
+  }
+
+  const connection = await mysql.createConnection({
+    host: env.host,
+    port: env.port,
+    user: env.user,
+    password: env.password,
+    connectTimeout: 5000,
+  });
+  try {
+    await connection.query(
+      `CREATE DATABASE IF NOT EXISTS \`${env.database}\` CHARACTER SET utf8mb4`,
+    );
+  } finally {
+    await connection.end();
+  }
+}
+
+async function connectWithRetry(env: StorageEnv): Promise<MySqlStorage> {
+  for (let attempt = 1; attempt <= RETRY_ATTEMPTS; attempt += 1) {
+    try {
+      await ensureDatabase(env);
+      return await createStorage(env);
+    } catch (error) {
+      const code = errorCode(error);
+      if (!RETRYABLE_CODES.has(code)) {
+        throw new Error(
+          `seekdb connection failed (${code || "unknown"}): ${errorMessage(error)}. ` +
+            "Check SEEKDB_* values in .env and that seekdb is running.",
+        );
+      }
+      if (attempt === RETRY_ATTEMPTS) {
+        throw new Error(
+          `seekdb did not become ready within ${(RETRY_ATTEMPTS * RETRY_DELAY_MS) / 1000}s: ${errorMessage(error)}`,
+        );
+      }
+      console.log(
+        `Waiting for seekdb... (${attempt}/${RETRY_ATTEMPTS})`,
+      );
+      await sleep(RETRY_DELAY_MS);
+    }
+  }
+  throw new Error("unreachable");
+}
 
 export async function runMigrations(
   storage: MySqlStorage,
@@ -47,7 +121,7 @@ export async function runMigrations(
 const isMain =
   process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
 if (isMain) {
-  const storage = await createStorage();
+  const storage = await connectWithRetry(storageEnvFromProcess());
   try {
     const applied = await runMigrations(storage);
     console.log(

@@ -32,6 +32,7 @@ export async function createConnection(
     connectionLimit: 10,
     charset: "utf8mb4",
     multipleStatements: true,
+    connectTimeout: 5000,
     // 库内时间戳一律为 UTC 字面量，禁止 mysql2 按进程时区二次换算
     timezone: "Z",
   });
@@ -51,6 +52,7 @@ export function createPool(env: StorageEnv): mysql.Pool {
     connectionLimit: 10,
     charset: "utf8mb4",
     multipleStatements: true,
+    connectTimeout: 5000,
     timezone: "Z",
   });
 }
