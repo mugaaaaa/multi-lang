@@ -17,6 +17,9 @@ build/
 npm-debug.log*
 pnpm-debug.log*
 
+# Qoder Sites local binding
+*.qoder.site
+
 # Editor & OS
 .DS_Store
 .idea/

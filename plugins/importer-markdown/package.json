@@ -1,0 +1,18 @@
+{
+  "name": "@multi-lang/importer-markdown",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.0"
+  },
+  "dependencies": {
+    "@multi-lang/plugin-sdk": "workspace:*",
+    "@multi-lang/contracts": "workspace:*"
+  }
+}
